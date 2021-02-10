@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -47,7 +49,23 @@
         <button type="submit" formmethod="POST" formaction="{{ url_for('index_img') }}">Submit</button>
 
       </form>
-      <img src="{{ url }}" alt="">
+      <div class="chart" id="bargraph">
+          <script>
+              var graphs = {{ graphicData | safe}}
+              if(graphs != ""){
+                Plotly.plot('bargraph',graphs,{
+                  paper_bgcolor: 'rgba(0,0,0,0)',
+                  plot_bgcolor: 'rgba(0,0,0,0)',
+                  xaxes_tickcolor:"blue",
+                  title_font_family:"Times New Roman",
+                  title_font_color:"red",
+                  legend_title_font_color:"green"
+                });
+              }
+                
+          </script>
+      </div>
+    
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>

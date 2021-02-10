@@ -108,5 +108,11 @@ fieldset{
   font-size: 0.7rem;
 }
 
+#bargraph{
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+}
+
 
 
