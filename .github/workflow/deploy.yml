@@ -1,0 +1,18 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.0.0
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "your_app_name" # {{secrets.HEROKU_APP_NAME}}
+          heroku_email: "your e-mail address associated with Heroku" # {{secrets.HEROKU_EMAIL}}
+          usedocker: true
+          healthcheck: "https://[YOUR APP's NAME].herokuapp.com/health" # {{secrets.HEROKU_APP_NAME}}
