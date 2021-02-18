@@ -1,0 +1,62 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # This workflow contains a single job called "build"
+  test-check:
+    runs-on: ubuntu-latest
+    # The type of runner that the job will run on
+    # services:
+    #   postgres:
+    #     image: postgres
+    #     env:
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_DB: github-actions
+    #     ports:
+    #       - 5432:5432
+    #     # needed because the postgres container does not provide a healthcheck
+    #     options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code # checking our the code at current commit that triggers the workflow
+        uses: actions/checkout@v2
+      - name: Cache dependency # caching dependency will make our build faster.
+        uses: actions/cache@v2 # for more info checkout pip section documentation at https://github.com/actions/cache
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Setup python environment # setting python environment to 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8" # if you want multiple python version run just use matrix strategy in job config. See the documentation of GitHub Actions
+      - name: Check Python version # checking the python version to see if 3.x is installed.
+        run: python --version
+      - name: Install requirements # install application requirements
+        working-directory: ./backend
+        run: pip install -r requirements.txt
+      - name: Check Syntax # check code formatting
+        run: pycodestyle --statistics .
+      # - name: Run Migrations # run migrations to create table in side car db container
+      #   working-directory: ./backend
+      #   env:
+      #     SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      #     DEBUG: ${{ secrets.DEBUG }}
+      #     ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+      #     CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+      #     WORKFLOW: ${{ secrets.WORKFLOW }}
+      #   run: python manage.py migrate
+      - name: Run Test # running tests
+        working-directory: ./backend
+        env:
+          # SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          # DEBUG: ${{ secrets.DEBUG }}
+          # ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          # CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+          # WORKFLOW: ${{ secrets.WORKFLOW }}
+        run: pytest
