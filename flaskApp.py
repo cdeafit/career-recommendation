@@ -23,7 +23,10 @@ def index():
 @app.route('/', methods=['POST', 'GET'])
 def index_img():
     if request.method == 'POST':
-        return render_template('ej.html', graphicData=create_plot(request.form), data=request.form)
+        return render_template(
+            'ej.html',
+            graphicData=create_plot(request.form),
+            data=request.form)
     else:
         return render_template('ej.html', url="")
 
