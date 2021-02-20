@@ -1,8 +1,7 @@
 name: Test
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   # This workflow contains a single job called "build"
@@ -41,7 +40,7 @@ jobs:
         working-directory: ./backend
         run: pip install -r requirements.txt
       - name: Check Syntax # check code formatting
-        run: pycodestyle --statistics .
+        run: pycodestyle --statistics flaskApp.py ./tests/test_app.py ./model/*
       # - name: Run Migrations # run migrations to create table in side car db container
       #   working-directory: ./backend
       #   env:
@@ -52,11 +51,11 @@ jobs:
       #     WORKFLOW: ${{ secrets.WORKFLOW }}
       #   run: python manage.py migrate
       - name: Run Test # running tests
-        working-directory: ./backend
-        env:
-          # SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          # DEBUG: ${{ secrets.DEBUG }}
-          # ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-          # CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
-          # WORKFLOW: ${{ secrets.WORKFLOW }}
+        # working-directory: .
+        # env:
+        # SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        # DEBUG: ${{ secrets.DEBUG }}
+        # ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+        # CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+        # WORKFLOW: ${{ secrets.WORKFLOW }}
         run: pytest
