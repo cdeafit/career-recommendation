@@ -1,14 +1,24 @@
-from flask import Flask, render_template, send_file, request, redirect, url_for
 import plotly
 import plotly.graph_objs as go
 import pandas as pd
 import numpy as np
 import json
+from flask import (
+    Flask,
+    render_template,
+    send_file,
+    request,
+    redirect,
+    url_for)
+
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def index():
-    return render_template('ej.html', graphicData="", data = None)
+    return render_template('ej.html', graphicData="", data=None)
+
 
 @app.route('/', methods=['POST', 'GET'])
 def index_img():
@@ -17,15 +27,21 @@ def index_img():
     else:
         return render_template('ej.html', url="")
 
+
 def create_plot(data):
-    carreras = ['ingeniería', 'política', 'veterinaria', 'ulinaria', 'teología', 'jueguitos', 'sociología', 'música']
+    carreras = [
+        'ingeniería', 'política', 'veterinaria',
+        'ulinaria', 'teología', 'jueguitos',
+        'sociología', 'música'
+    ]
     data = [
-        go.Bar(y = carreras, x = list(data.values()), orientation = 'h')
+        go.Bar(y=carreras, x=list(data.values()), orientation='h')
     ]
 
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
 
     return graphJSON
+
 
 if __name__ == "__main__":
     app.run(debug=True)

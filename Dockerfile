@@ -12,6 +12,8 @@ COPY . /backend/
 
 RUN pip install -r /backend/requirements.txt
 
+RUN pip install gunicorn 
+
 RUN apk del .tmp
 
-EXPOSE 8000
+CMD gunicorn -b 0.0.0.0:5000 flaskApp:flaskApp 
