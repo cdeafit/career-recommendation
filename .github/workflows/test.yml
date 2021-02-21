@@ -37,7 +37,7 @@ jobs:
       - name: Check Python version # checking the python version to see if 3.x is installed.
         run: python --version
       - name: Install requirements # install application requirements
-        working-directory: ./backend
+        # working-directory: .
         run: pip install -r requirements.txt
       - name: Check Syntax # check code formatting
         run: pycodestyle --statistics flaskApp.py ./tests/test_app.py ./model/*
