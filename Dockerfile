@@ -4,16 +4,18 @@ ENV PYTHONBUFFERED=1
 
 RUN apk add --update --no-cache --virtual .tmp gcc libc-dev linux-headers
 
-RUN mkdir /backend
+RUN mkdir /app
 
-WORKDIR /backend/
+WORKDIR /app/
 
-COPY . /backend/
+COPY . /app/
 
-RUN pip install -r /backend/requirements.txt
+RUN pip3 install -r requirements.txt
 
-RUN pip install gunicorn 
+RUN pip3 install gunicorn 
 
 RUN apk del .tmp
 
-CMD gunicorn -b 0.0.0.0:5000 flaskApp:flaskApp 
+EXPOSE ${PORT} 
+
+CMD gunicorn -b 0.0.0.0:${PORT} flaskApp:app
