@@ -10,7 +10,13 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY . /app
+COPY ./static /app
+
+COPY ./requirements.txt /app
+
+COPY ./templates /app
+
+COPY ./flaskApp.py /app
 
 RUN pip3 install -r requirements.txt
 
@@ -18,4 +24,4 @@ RUN pip3 install gunicorn
 
 RUN apk del .tmp
 
-CMD gunicorn -b 0.0.0.0:$PORT flaskApp:app
+CMD ["gunicorn", "-b:", "0.0.0.0:$PORT", "flaskApp:app"]
